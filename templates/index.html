@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <img src="{{ url_for('static', filename='images/logo-rmvd.png') }}" alt="Logo" class="logo"> <!-- Logo en haut -->
+    <div class="container">
+        <h1>Rencontrez HR-GPT</h1> <!-- Titre -->
+        <form id="questionForm" action="/ask" method= "POST" style="display: flex; align-items: center;">
+            <input type="text" name="question" placeholder="Posez votre question..." required>
+            <button type="submit" class="send-button">
+                <i class="fas fa-paper-plane send-icon"></i>
+            </button>
+            
+        </form>
+        <h2 class="suggestions-title">Essayez ça</h2> <!-- Section d'exemples -->
+        <ul class="example-questions">
+            <li class="clickable">Quelles sont les politiques de congés ?</li>
+            <li class="clickable">Comment signaler un problème au travail ?</li>
+            <li class="clickable">Quels sont les avantages offerts par l'entreprise ?</li>
+        </ul>
+        <a href="/about" class="about-button">À Propos</a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/stats.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script> <!-- Lien vers votre fichier JS -->
+
+</body>
+</html>

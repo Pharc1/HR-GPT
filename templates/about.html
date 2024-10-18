@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À Propos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/logo-rmvd.png') }}" alt="Logo" class="logo"> <!-- Logo -->
+        <h1>À Propos de HR-GPT</h1> <!-- Nom du logiciel -->
+        <p>
+            Ce projet vise à faciliter l'accès aux politiques internes de l'entreprise 
+            en fournissant un assistant virtuel intelligent. Grâce à l'utilisation de 
+            modèles de langage avancés, notre application permet aux employés de poser 
+            des questions et d'obtenir des réponses précises et contextuelles.
+        </p>
+        <p>
+            Notre objectif est de réduire le temps que le personnel RH consacre à 
+            répondre aux questions des employés et d'améliorer la clarté et la 
+            transparence des politiques d'entreprise.
+        </p>
+        <a href="/" class="about-button">Retour à l'accueil</a>
+    </div>
+</body>
+</html>

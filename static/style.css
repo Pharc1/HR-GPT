@@ -1,0 +1,135 @@
+body {
+    background-color: #121212; /* Fond sombre élégant */
+    color: #e0e0e0; /* Texte clair neutralisé */
+    font-family: 'Inter', sans-serif; /* Police moderne et lisible */
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    overflow: hidden; /* Empêche le défilement si les éléments dépassent */
+    
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    right: 45%;
+    z-index: -1; /* Assure que le canvas est derrière le contenu */
+}
+
+
+
+.logo {
+    display: block;
+    margin: 40px auto;
+    width: 120px; /* Taille adaptée pour un bon équilibre visuel */
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Inter', sans-serif;
+    color: #ffffff; /* Accent violet pour le titre */
+    font-weight: 600; /* Titre suffisamment gras pour attirer l'attention */
+    margin-bottom: 25px;
+    font-size: 3em;
+}
+
+h2.suggestions-title {
+    font-family: 'Inter', sans-serif;
+    color: #dddddd; /* Sous-titre en violet plus doux */
+    margin: 30px 0 15px;
+    text-align: left;
+    font-weight: 500;
+}
+
+form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 15px;
+    border: 0px solid #333; /* Bordure discrète mais présente */
+    border-radius: 30px;
+    background-color: #1e1e1e; /* Fond du champ texte */
+    color: #e0e0e0;
+    font-family: 'Inter', sans-serif;
+    font-size: 19px;
+    box-sizing: border-box;
+    height: 54px;
+}
+
+.send-button {
+    border-radius: 30px;
+    background-color: #9b59b6; /* Utilisation du violet pour un appel à l'action */
+    color: white;
+    padding: 15px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    height: 54px;
+    BORDER: none
+}
+
+.send-button:hover {
+    background-color: #8e44ad; /* Accentuation au survol pour l'interactivité */
+}
+
+.about-button {
+    display: inline-block; /* Affichage en bloc pour le bouton */
+    padding: 8px 15px; /* Espacement intérieur */
+    background-color: transparent; /* Fond transparent pour un look subtil */
+    color: #9b59b6; /* Couleur violet pour le texte */
+    border: 2px solid #9b59b6; /* Bordure violette */
+    border-radius: 30px; /* Coins arrondis */
+    text-decoration: none; /* Retire le soulignement */
+    margin-top: 20px; /* Marge au-dessus */
+    transition: background-color 0.3s, color 0.3s; /* Animation pour le changement de couleur */
+    font-family: 'Poppins', sans-serif; /* Police pour le bouton */
+    font-size: 16px; /* Taille de police pour le bouton */
+}
+
+.about-button:hover {
+    background-color: #9b59b6; /* Couleur au survol */
+    color: white; /* Couleur du texte au survol */
+}
+
+.send-icon {
+    margin-right: 8px;
+}
+
+.question-label {
+    color: #b3b3b3; /* Étiquette en gris doux pour un contraste équilibré */
+    font-family: 'Inter', sans-serif;
+    margin-left: 10px;
+}
+
+.example-questions {
+    list-style-type: none;
+    padding: 0;
+}
+
+.example-questions li {
+    padding: 15px;
+    background-color: #2e2e2e; /* Fond des questions en gris sombre */
+    border-radius: 30px;
+    margin: 8px 0;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    font-family: 'Inter', sans-serif;
+}
+
+.example-questions li:hover {
+    background-color: #3a3a3a; /* Effet de survol subtil pour chaque question */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
