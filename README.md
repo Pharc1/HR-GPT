@@ -1,6 +1,6 @@
 # HR-GPT
 
-![HR-GPT Logo](images/logo.png) 
+![HR-GPT Logo](static/images/logo-rmvd.png) 
 
 ## Description
 
@@ -73,4 +73,4 @@ Ce projet est sous la licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus 
 
 Pour toute question, n'hésitez pas à me contacter à l'adresse [kpharci@gmail.com](mailto:kpharci@gmail.com).
 
-![HR-GPT Screenshot](imagesscreenshot.png) 
+![HR-GPT Screenshot](static/images/screenshot.png) 

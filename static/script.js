@@ -14,6 +14,7 @@ document.body.appendChild(renderer.domElement);
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
+
 const loader = new THREE.STLLoader();
 loader.load(
     'static/model.stl',
@@ -90,3 +91,72 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
+
+
+document.getElementById("questionForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const question = document.getElementById("question").value;
+
+    // Appel à l'API pour obtenir la réponse
+    fetch('/ask', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ question: question })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Afficher la réponse
+        document.getElementById("responseText").textContent = data.answer;
+
+        // Cacher "Rencontrer HR GPT" avec GSAP
+        gsap.to(".meet-gpt-text", {
+            opacity: 0,
+            height: 0,
+            duration: 0.5, // Durée légèrement réduite
+            ease: "power2.inOut", // Ease plus fluide
+            onComplete: function() {
+                document.querySelector('.meet-gpt-text').style.display = 'none';
+            }
+        });
+
+        // Cacher la section "Essayez ça" avec GSAP
+        gsap.to(".suggestions-title, .example-questions", {
+            opacity: 0,
+            height: 0,
+            duration: 0.5, // Durée légèrement réduite
+            ease: "power2.inOut", // Ease plus fluide
+            onComplete: function() {
+                document.querySelector('.suggestions-title').style.display = 'none';
+                document.querySelector('.example-questions').style.display = 'none';
+            }
+        });
+
+        // Animer l'input et le bouton pour qu'ils montent en haut
+        gsap.to("#questionForm", {
+            y: -100,
+            scaleX: 1.05, // Scale légèrement réduit pour un effet plus subtil
+            scaleY: 1.05,
+            duration: 0.4, // Durée légèrement réduite
+            ease: "power2.inOut" // Ease plus fluide
+        });
+
+        // Afficher la réponse avec une animation de fondu
+        const answerSection = document.getElementById("answerSection");
+        answerSection.style.display = 'block'; // Assure que la réponse est visible
+
+        // Animation de fondu plus fluide
+        gsap.fromTo(answerSection, {
+            opacity: 0,
+            y: 20 // Déplacement initial plus léger
+        }, {
+            opacity: 1,
+            y: 0,
+            duration: 0.5, // Durée légèrement réduite
+            ease: "power2.inOut" // Ease plus fluide
+        });
+    })
+    .catch(error => console.error('Erreur:', error));
+});

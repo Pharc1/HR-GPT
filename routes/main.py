@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, render_template, request
 from transformers import pipeline
 
+
 main = Blueprint('main', __name__)
 
 nlp = pipeline("question-answering", model="deepset/roberta-base-squad2")

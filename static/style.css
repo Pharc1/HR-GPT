@@ -133,3 +133,38 @@ input[type="text"] {
     background-color: #3a3a3a; /* Effet de survol subtil pour chaque question */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+
+
+#questionForm {
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    transition: all 0.5s ease;
+}
+
+
+
+#answerSection {
+    display: none; /* Caché par défaut */
+    text-align: left; /* Alignement à gauche */
+    margin-top: 20px; /* Marge supérieure */
+    padding: 15px; /* Espace interne */
+    border-radius: 10px; /* Coins arrondis */
+    background-color: #2c2c2c; /* Couleur de fond de la réponse */
+    border: 1px solid #5f5f5f; /* Bordure sombre */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Ombre pour un effet 3D */
+}
+
+#responseText {
+    font-size: 16px; /* Taille de la police */
+    color: #e0e0e0; /* Couleur du texte pour la réponse */
+    line-height: 1.5; /* Espacement entre les lignes */
+}
+
+/* Optionnel : Ajout d'un style pour l'en-tête */
+#answerSection h2 {
+    margin: 0; /* Retire la marge par défaut */
+    font-size: 20px; /* Taille de la police de l'en-tête */
+    color: #9b59b6; /* Couleur violet pour l'en-tête */
+}

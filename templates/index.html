@@ -14,26 +14,38 @@
 </head>
 <body>
     <img src="{{ url_for('static', filename='images/logo-rmvd.png') }}" alt="Logo" class="logo"> <!-- Logo en haut -->
+    
     <div class="container">
-        <h1>Rencontrez HR-GPT</h1> <!-- Titre -->
-        <form id="questionForm" action="/ask" method= "POST" style="display: flex; align-items: center;">
-            <input type="text" name="question" placeholder="Posez votre question..." required>
+        <h1 class= "meet-gpt-text">Rencontrez HR-GPT</h1> <!-- Titre -->
+        
+        <!-- Formulaire de question -->
+        <form id="questionForm" action="/ask" method="POST" style="display: flex; align-items: center;">
+            <input type="text" id="question" name="question" placeholder="Posez votre question..." required>
             <button type="submit" class="send-button">
                 <i class="fas fa-paper-plane send-icon"></i>
             </button>
-            
         </form>
-        <h2 class="suggestions-title">Essayez ça</h2> <!-- Section d'exemples -->
+        
+        <!-- Section réponse (cachée par défaut) -->
+        <div id="answerSection" style="display: none;">
+            <h2>Réponse :</h2>
+            <p id="responseText"></p>
+        </div>
+        
+        <!-- Section suggestions -->
+        <h2 class="suggestions-title">Essayez ça</h2>
         <ul class="example-questions">
             <li class="clickable">Quelles sont les politiques de congés ?</li>
             <li class="clickable">Comment signaler un problème au travail ?</li>
             <li class="clickable">Quels sont les avantages offerts par l'entreprise ?</li>
         </ul>
+
+        <!-- Bouton "À propos" -->
         <a href="/about" class="about-button">À Propos</a>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/stats.min.js"></script>
