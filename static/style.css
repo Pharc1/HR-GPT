@@ -90,7 +90,7 @@ input[type="text"] {
     padding: 8px 15px; /* Espacement intérieur */
     background-color: transparent; /* Fond transparent pour un look subtil */
     color: #9b59b6; /* Couleur violet pour le texte */
-    border: 2px solid #9b59b6; /* Bordure violette */
+    border: 1px solid #9b59b6; /* Bordure violette */
     border-radius: 30px; /* Coins arrondis */
     text-decoration: none; /* Retire le soulignement */
     margin-top: 20px; /* Marge au-dessus */
@@ -152,7 +152,7 @@ input[type="text"] {
     padding: 15px; /* Espace interne */
     border-radius: 10px; /* Coins arrondis */
     background-color: #2c2c2c; /* Couleur de fond de la réponse */
-    border: 1px solid #5f5f5f; /* Bordure sombre */
+    border: 0px solid #5f5f5f; /* Bordure sombre */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Ombre pour un effet 3D */
 }
 
@@ -167,4 +167,12 @@ input[type="text"] {
     margin: 0; /* Retire la marge par défaut */
     font-size: 20px; /* Taille de la police de l'en-tête */
     color: #9b59b6; /* Couleur violet pour l'en-tête */
+}
+
+
+.markdown h1, .markdown h2, .markdown h3 {
+    color: #333;
+}
+.markdown p {
+    margin: 10px 0;
 }

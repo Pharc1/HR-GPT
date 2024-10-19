@@ -30,7 +30,7 @@
         <!-- Section réponse (cachée par défaut) -->
         <div id="answerSection" style="display: none;">
             <h2>Réponse :</h2>
-            <p id="responseText"></p>
+            <p id="responseText" class="markdown"></p>
         </div>
         
         <!-- Section suggestions -->
@@ -50,6 +50,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/stats.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script> <!-- Lien vers votre fichier JS -->
 
 </body>
