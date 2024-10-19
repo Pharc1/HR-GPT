@@ -14,18 +14,18 @@ document.body.appendChild(renderer.domElement);
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
-
 const loader = new THREE.STLLoader();
+let pointCloud; // Déclare la variable pour le pointCloud ici
+
 loader.load(
     'static/model.stl',
     (geometry) => {
         const vertices = geometry.attributes.position.array;
         const particleGeometry = new THREE.BufferGeometry();
 
-        // Ajustement de l'échelle pour réduire la taille
         const scale = 0.1;
         const pointCount = vertices.length / 3;
-        const positions = new Float32Array(pointCount * 2);
+        const positions = new Float32Array(pointCount * 3);
 
         let centerX = 0, centerY = 0, centerZ = 0;
 
@@ -38,18 +38,16 @@ loader.load(
             positions[i * 3 + 2] = vertices[i * 3 + 2] * scale;
         }
 
-        // Calculer le centre
-        centerX = centerX / pointCount * scale;
-        centerY = centerY / pointCount * scale;
-        centerZ = centerZ / pointCount * scale;
+        centerX /= pointCount * scale;
+        centerY /= pointCount * scale;
+        centerZ /= pointCount * scale;
 
         particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
         const material = new THREE.PointsMaterial({ color: 0x9b59b6, size: 0.00001 });
-        const pointCloud = new THREE.Points(particleGeometry, material);
+        pointCloud = new THREE.Points(particleGeometry, material); // Assigne le pointCloud
         scene.add(pointCloud);
 
-        // Effet de vague autour du logo sur les axes X et Y
         function animate() {
             requestAnimationFrame(animate);
 
@@ -61,14 +59,14 @@ loader.load(
                 const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
                 const waveEffect = Math.sin(distance * 10 - time) * 0.05;
-                
+
                 positions[i * 3] = (vertices[i * 3] * scale) + waveEffect * dx / distance;
                 positions[i * 3 + 1] = (vertices[i * 3 + 1] * scale) + waveEffect * dy / distance;
                 positions[i * 3 + 2] = (vertices[i * 3 + 2] * scale) + waveEffect * dz / distance;
             }
             particleGeometry.attributes.position.needsUpdate = true;
 
-            pointCloud.rotation.y += 0.0001; // Rotation de la forme
+            pointCloud.rotation.y += 0.0001;
 
             controls.update();
             renderer.render(scene, camera);
@@ -92,71 +90,117 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+const responseTextElement = document.getElementById('responseText');
+const questionInput = document.getElementById('question');
 
-document.getElementById("questionForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+document.getElementById("questionForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    responseTextElement.innerHTML = ''; // Clear previous response
 
-    const question = document.getElementById("question").value;
+    const answerSection = document.getElementById("answerSection");
+    answerSection.style.display = 'block'; // Assure que la réponse est visible
 
-    // Appel à l'API pour obtenir la réponse
-    fetch('/ask', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ question: question })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Afficher la réponse
-        document.getElementById("responseText").textContent = data.answer;
+    gsap.fromTo(answerSection, {
+        opacity: 0,
+        y: 20
+    }, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "power2.inOut"
+    });
 
-        // Cacher "Rencontrer HR GPT" avec GSAP
-        gsap.to(".meet-gpt-text", {
-            opacity: 0,
-            height: 0,
-            duration: 0.5, // Durée légèrement réduite
-            ease: "power2.inOut", // Ease plus fluide
-            onComplete: function() {
-                document.querySelector('.meet-gpt-text').style.display = 'none';
-            }
+    const decoder = new TextDecoder("utf-8");
+    let output = "";
+
+    // Commencer à pulser en rouge
+    pulseColor(0xff0000);
+
+    try {
+        const response = await fetch(`/ask?question=${encodeURIComponent(questionInput.value)}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question: questionInput.value }),
+            cache: "no-cache" // Ensure no caching issues
         });
 
-        // Cacher la section "Essayez ça" avec GSAP
-        gsap.to(".suggestions-title, .example-questions", {
-            opacity: 0,
-            height: 0,
-            duration: 0.5, // Durée légèrement réduite
-            ease: "power2.inOut", // Ease plus fluide
-            onComplete: function() {
-                document.querySelector('.suggestions-title').style.display = 'none';
-                document.querySelector('.example-questions').style.display = 'none';
-            }
-        });
+        if (!response.ok) {
+            throw new Error("Erreur de réseau : " + response.statusText);
+        }
 
-        // Animer l'input et le bouton pour qu'ils montent en haut
-        gsap.to("#questionForm", {
-            y: -100,
-            scaleX: 1.05, // Scale légèrement réduit pour un effet plus subtil
-            scaleY: 1.05,
-            duration: 0.4, // Durée légèrement réduite
-            ease: "power2.inOut" // Ease plus fluide
-        });
+        const reader = response.body.getReader();
 
-        // Afficher la réponse avec une animation de fondu
-        const answerSection = document.getElementById("answerSection");
-        answerSection.style.display = 'block'; // Assure que la réponse est visible
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            output += decoder.decode(value);
+            responseTextElement.innerHTML = marked.parse(output);
+            console.log('Contenu mis à jour :', responseTextElement.innerHTML);
+        }
 
-        // Animation de fondu plus fluide
-        gsap.fromTo(answerSection, {
-            opacity: 0,
-            y: 20 // Déplacement initial plus léger
-        }, {
-            opacity: 1,
-            y: 0,
-            duration: 0.5, // Durée légèrement réduite
-            ease: "power2.inOut" // Ease plus fluide
-        });
-    })
-    .catch(error => console.error('Erreur:', error));
+    } catch (error) {
+        console.error("Erreur lors de la requête : ", error);
+        responseTextElement.innerHTML = "Erreur lors du traitement de la requête.";
+    } finally {
+        // Arrêter de pulser et revenir à la couleur d'origine
+        stopPulsing();
+    }
+
+    // Animer les éléments à cacher
+    gsap.to(".meet-gpt-text", {
+        opacity: 0,
+        height: 0,
+        duration: 0.5,
+        ease: "power2.inOut",
+        onComplete: function () {
+            document.querySelector('.meet-gpt-text').style.display = 'none';
+        }
+    });
+
+    gsap.to(".suggestions-title", {
+        opacity: 0,
+        height: 0,
+        duration: 0.5,
+        ease: "power2.inOut",
+        onComplete: function () {
+            document.querySelector('.suggestions-title').style.display = 'none';
+        }
+    });
+
+    gsap.to(".example-questions", {
+        opacity: 0,
+        height: 0,
+        duration: 0.5,
+        ease: "power2.inOut",
+        onComplete: function () {
+            document.querySelector('.example-questions').style.display = 'none';
+        }
+    });
+
+    gsap.to("#questionForm", {
+        y: -100,
+        scaleX: 1.05,
+        scaleY: 1.05,
+        duration: 0.4,
+        ease: "power2.inOut"
+    });
 });
+
+// Fonction pour pulser la couleur
+function pulseColor() {
+    gsap.to(pointCloud.material.color, {
+        r: 0.84, // Lavande
+        g: 0.78,
+        b: 0.88,
+        duration: 0.9,
+        repeat: -1,
+        yoyo: true,
+        ease: "power1.inOut"
+    });
+}
+
+// Fonction pour arrêter de pulser
+function stopPulsing() {
+    gsap.killTweensOf(pointCloud.material.color); // Arrête toutes les animations sur la couleur
+    pointCloud.material.color.set(0x9b59b6); // Remet la couleur d'origine
+}

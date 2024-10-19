@@ -13,7 +13,7 @@
     <link rel="icon" href="{{ url_for('static', filename='images/logo-rmvd.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body id = "body">
     <img src="{{ url_for('static', filename='images/logo-rmvd.png') }}" alt="Logo" class="logo"> <!-- Logo en haut -->
     
     <div class="container">
@@ -34,8 +34,8 @@
         </div>
         
         <!-- Section suggestions -->
-        <h2 class="suggestions-title">Essayez ça</h2>
-        <ul class="example-questions">
+        <h2 class="suggestions-title" id = "suggestions-title">Essayez ça</h2>
+        <ul class="example-questions" id = "example-questions">
             <li class="clickable">Quelles sont les politiques de congés ?</li>
             <li class="clickable">Comment signaler un problème au travail ?</li>
             <li class="clickable">Quels sont les avantages offerts par l'entreprise ?</li>
