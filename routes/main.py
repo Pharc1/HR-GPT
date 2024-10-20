@@ -4,6 +4,8 @@ import faiss
 import numpy as np
 import logging
 from openai import OpenAI
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.document_loaders import DirectoryLoader
 
 
 logging.basicConfig(level=logging.INFO)
@@ -27,23 +29,28 @@ def get_embedding(text):
     except Exception as e:
         logging.error("Erreur lors de l'obtention de l'embedding : %s", str(e))
         return None
+    
 
-# Fonction pour diviser un document en chunks
-def chunk_text(text, chunk_size=100):
-    words = text.split()
-    chunks = [' '.join(words[i:i+chunk_size]) for i in range(0, len(words), chunk_size)]
+def chunk_text(documents, chunk_size=100, chunk_overlap=20):
+    # Crée le text splitter avec les paramètres spécifiés
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+        length_function=len,
+        add_start_index=True,
+    )
+    chunks = text_splitter.split_documents(documents)
+    logging.info("split %d documents into %d chunks", len(documents), len(chunks))
     return chunks
 
 # Fonction pour charger et découper les fichiers .txt en chunks
 def load_documents_from_folder(folder_path, chunk_size=512):
-    documents = []
-    for filename in os.listdir(folder_path):
-        if filename.endswith('.txt'):
-            with open(os.path.join(folder_path, filename), 'r', encoding='utf-8') as file:
-                text = file.read()
-                # Découper le texte en chunks
-                document_chunks = chunk_text(text, chunk_size)
-                documents.extend(document_chunks)
+    loader = DirectoryLoader(folder_path, glob = "*.txt")
+    documents = loader.load()
+    documents = chunk_text(documents, 500, 100)
+    document = documents[10]
+    logging.info("content of 10th document: %s", document.page_content)
+    logging.info("document 10th metadata: %s", document.metadata)
     return documents
 
 # Charger les documents et découper en chunks
@@ -51,7 +58,7 @@ folder_path = 'static/documents'
 documents = load_documents_from_folder(folder_path)
 
 # Créer les embeddings pour les chunks de documents
-embeddings = np.array([get_embedding(doc).flatten() for doc in documents])
+embeddings = np.array([get_embedding(doc.page_content).flatten() for doc in documents])
 
 # Créer un index FAISS
 dimension = embeddings.shape[1]
@@ -85,12 +92,18 @@ def ask():
     if not question:
         return jsonify({"error": "Aucune question fournie."}), 400
 
-    base_instructions = "Tu es un assistant très gentil qui vouvoie répond toujours avec joie et bienveillance aux questions et des emojies. Tu dois toujours répondre uniquement en fonction de tes connaissances, si une question n'est pas liée à tes conaissances ou si la reponse n'est pas dans les connaissances tu ne réponds pas"
+    base_instructions = """
+    tu es Jovia est un assistant bienveillant qui vouvoie toujours et répond avec joie et émojis. 
+    tu fournit uniquement des réponses basées sur ses connaissances. 
+    Si une question dépasse tes connaissances, tu l'indique gentiment. 
+    Lorsqu'une adresse mail est donnée, Jovia renvoie un lien mailto avec un sujet et un corps appropriés attention les saut de ligne sont %0A%0A: <a href="mailto:exemple@exemple.com?subject=Sujet pertinent&body=Bonjour,%0A%0AVoici les informations demandées.">exemple@exemple.com</a>
+    elle indique gentiment que le lien est cliquable avec un mail préparé.
+    """
     question_embedding = get_embedding(question).reshape(1, -1)
     logging.info("Shape of question_embedding: %s", question_embedding.shape)
 
     D, I = index.search(question_embedding, k)
-    context = " source: ".join([documents[i] for i in I[0]])
+    context = " ".join([documents[i].page_content for i in I[0]])
     logging.info("Context trouvé: %s", context)
 
     if context.strip() == "":
