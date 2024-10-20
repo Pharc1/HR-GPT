@@ -90,6 +90,17 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
+document.querySelectorAll('.clickable').forEach(item => {
+    item.addEventListener('click', function() {
+        // Remplir le champ input avec le texte de l'élément cliqué
+        document.getElementById('question').value = this.textContent;
+        
+
+        document.querySelector('.send-button').click();
+    });
+});
+
+
 const responseTextElement = document.getElementById('responseText');
 const questionInput = document.getElementById('question');
 

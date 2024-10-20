@@ -85,7 +85,7 @@ def ask():
     if not question:
         return jsonify({"error": "Aucune question fournie."}), 400
 
-    base_instructions = "Tu es un assistant très gentil qui répond toujours avec joie et bienveillance aux questions et des emojies. Tu dois toujours répondre uniquement en fonction des informations donné sur, si une question n'est pas liée au contexte, tu ne réponds pas"
+    base_instructions = "Tu es un assistant très gentil qui vouvoie répond toujours avec joie et bienveillance aux questions et des emojies. Tu dois toujours répondre uniquement en fonction de tes connaissances, si une question n'est pas liée à tes conaissances ou si la reponse n'est pas dans les connaissances tu ne réponds pas"
     question_embedding = get_embedding(question).reshape(1, -1)
     logging.info("Shape of question_embedding: %s", question_embedding.shape)
 
@@ -96,7 +96,7 @@ def ask():
     if context.strip() == "":
         return jsonify({"error": "Aucun contexte pertinent trouvé dans les documents."}), 404
 
-    context = base_instructions + " context : " + context
+    context = base_instructions + " coonaissances : " + context
     messages = [
         {"role": "system", "content": context},
         {"role": "user", "content": question},
