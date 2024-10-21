@@ -2,17 +2,15 @@ services:
   chroma:
     image: chromadb/chroma:latest
     ports:
-      - "8001:8000"
-    volumes:
-      - ./chroma-data:/data  
+      - "8000:8000"
     env_file:
       - ./.env
 
 
   flask:
-    build: ./app  
+    image: hrgpt.azurecr.io/flask:1.0
     ports:
-      - "5000:5000"  
+      - "5000:5000"
     depends_on:
       - chroma
     env_file:

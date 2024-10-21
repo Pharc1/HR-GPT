@@ -32,6 +32,10 @@ def about():
     """Affiche la page à propos."""
     return render_template('about.html')
 
+@main.route('/health')
+def health_check():
+    return "Healthy", 200
+
 @main.route('/ask', methods=['GET', 'POST'])
 def ask():
     """Traite les demandes de questions de l'utilisateur.
