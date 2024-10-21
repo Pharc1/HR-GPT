@@ -1,0 +1,57 @@
+ julie.durand@techcorp.com - Directrice Générale
+   - Subordonnés directs :
+     - marc.laroche@techcorp.com - Directeur Financier
+        - Subordonnés : 
+           - emma.giraud@techcorp.com - Analyste Financier
+           - lucie.ribas@techcorp.com - Contrôleur de Gestion
+           - martine.bruel@techcorp.com - Gestionnaire Paie
+     - sophie.martin@techcorp.com - Responsable Marketing
+        - Subordonnés :
+           - celine.charles@techcorp.com - Rédactrice Web
+           - rebecca.simon@techcorp.com - Community Manager
+           - elsa.legendre@techcorp.com - Chef de Projet Marketing
+     - vincent.mallet@techcorp.com - Directeur Technique
+        - Subordonnés :
+           - alexandre.bernard@techcorp.com - Chef de Projet IT
+           - lucas.moreau@techcorp.com - Ingénieur Logiciel
+           - hugo.petit@techcorp.com - Technicien Réseau
+           - kevin.morel@techcorp.com - Ingénieur DevOps
+     - julien.pereira@techcorp.com - Directeur des Ressources Humaines
+        - Subordonnés :
+           - laura.caron@techcorp.com - Chargée de Recrutement
+           - marion.lebon@techcorp.com - Assistante RH
+           - sylvie.laborde@techcorp.com - Responsable Formation
+     - noemie.dumont@techcorp.com - Responsable Comptabilité
+        - Subordonné :
+           - helene.aubert@techcorp.com - Chef Comptable
+     - rachid.bensaid@techcorp.com - Responsable des Ventes
+        - Subordonnés :
+           - thomas.renard@techcorp.com - Commercial
+           - amelie.forestier@techcorp.com - Assistante Commerciale
+           - eric.robin@techcorp.com - Chargé de Clientèle
+     - claire.lapierre@techcorp.com - Responsable R&D
+        - Subordonnés :
+           - ines.lambert@techcorp.com - UX Designer
+           - mathieu.perrier@techcorp.com - Ingénieur Sécurité
+     - yannick.navarro@techcorp.com - Responsable Logistique
+        - Subordonné :
+           - marie.butler@techcorp.com - Responsable Expédition
+     - damien.masson@techcorp.com - Ingénieur Production
+     - sophie.martin@techcorp.com - Responsable Marketing
+     - pierre.dupont@techcorp.com - Développeur Web
+     - adrien.benoit@techcorp.com - Consultant Junior
+     - viviane.rousseau@techcorp.com - Assistante Juridique
+     - manon.faure@techcorp.com - Graphiste
+     - roger.bastien@techcorp.com - Chargé d'Études
+     - emilie.fontaine@techcorp.com - Responsable Relations Publiques
+     - fiona.gillet@techcorp.com - Responsable Service Client
+        - Subordonné :
+           - dylan.leroy@techcorp.com - Technicien Maintenance
+     - sebastien.jardin@techcorp.com - Responsable Qualité
+        - Subordonné :
+           - louis.vallee@techcorp.com - Contrôleur Qualité
+     - jerome.gregoire@techcorp.com - Auditeur Interne
+     - paul.rey@techcorp.com - Développeur Mobile
+     - alice.blanc@techcorp.com - Assistante de Direction
+     - nora.mahe@techcorp.com - Analyste Données
+     - franck.leboucher@techcorp.com - Responsable Sécurité

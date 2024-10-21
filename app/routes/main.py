@@ -1,11 +1,9 @@
 from flask import Blueprint, jsonify, render_template, request, Response
-import numpy as np
 import logging
 from openai import OpenAI
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.document_loaders import DirectoryLoader
-from langchain.vectorstores import Chroma
-from langchain.embeddings.openai import OpenAIEmbeddings
+from chromadb.utils import embedding_functions
+import os
+import chromadb
 
 # Configuration du logging pour le suivi des informations et des erreurs
 logging.basicConfig(level=logging.INFO)
@@ -18,76 +16,11 @@ main = Blueprint('main', __name__)
 client = OpenAI()
 
 # Définition du chemin pour la base de données Chroma
-CHROMA_PATH = "chroma"
-
-def chunk_text(documents, chunk_size, chunk_overlap):
-    """Découpe les documents en morceaux de texte selon les paramètres spécifiés.
-
-    Args:
-        documents (list): Liste des documents à découper.
-        chunk_size (int): Taille maximale de chaque morceau.
-        chunk_overlap (int): Nombre de caractères à chevaucher entre les morceaux.
-
-    Returns:
-        list: Liste des morceaux de texte découpés.
-    """
-    # Crée le text splitter avec les paramètres spécifiés
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap,
-        length_function=len,
-        add_start_index=True,
-    )
-    chunks = text_splitter.split_documents(documents)
-    logging.info("Découpé %d documents en %d morceaux", len(documents), len(chunks))
-    return chunks
-
-def load_documents_from_folder(folder_path, chunk_size=512):
-    """Charge les fichiers .txt depuis un dossier et les découpe en morceaux.
-
-    Args:
-        folder_path (str): Chemin du dossier contenant les fichiers texte.
-        chunk_size (int): Taille des morceaux de texte.
-
-    Returns:
-        list: Liste des morceaux de texte découpés.
-    """
-    try:
-        loader = DirectoryLoader(folder_path, glob="*.txt")
-        documents = loader.load()
-        # Découpe les documents en morceaux
-        documents = chunk_text(documents, chunk_size, 50)
-
-        # Log l'information sur le dixième document pour avoir un aperçu 
-        if len(documents) > 10:  # Vérifie qu'il y a au moins 10 documents
-            logging.info("Contenu du 10ème document: %s", documents[10].page_content)
-            logging.info("Métadonnées du 10ème document: %s", documents[10].metadata)
-        
-        return documents
-
-    except Exception as e:
-        logging.error("Erreur lors du chargement des documents: %s", str(e))
-        return []
-
-# Charger les documents et découper en morceaux
-folder_path = 'static/documents'
-documents = load_documents_from_folder(folder_path)
-
-# Création des embeddings pour les morceaux de documents
-embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
-
-# Initialisation de la base de données Chroma avec les documents et les embeddings
-try:
-    db = Chroma.from_documents(
-        documents, OpenAIEmbeddings(), persist_directory=CHROMA_PATH
-    )
-
-    if db.persist():
-        logging.info("Sauvegardé %s morceaux dans %s", len(documents), CHROMA_PATH)
-
-except Exception as e:
-    logging.error("Erreur lors de l'initialisation de Chroma: %s", str(e))
-
+# Configuration du client Chroma
+chroma_host = os.getenv('CHROMA_DB_HOST', 'chroma')  
+chroma_port = os.getenv('CHROMA_DB_PORT', 8001) 
+chroma_client = chromadb.HttpClient(host=chroma_host, port=chroma_port)
+embeddings_model = embedding_functions.OpenAIEmbeddingFunction(model_name="text-embedding-3-small", api_key=os.getenv('OPENAI_API_KEY'))
 
 @main.route("/")
 def home():
@@ -130,23 +63,13 @@ def ask():
 
     # Cherchez les résultats
     try:
-        results = db.similarity_search_with_relevance_scores(question, k=k)
+        collection = chroma_client.get_or_create_collection(name ="Documents", embedding_function=embeddings_model)
+        results = collection.query(
+            query_texts=["This is a query document about hawaii"], # Chroma will embed this for you
+            n_results=3 # how many results to return
+        )
 
-        context_set = set()
-        context = []
-
-        # Parcourez les résultats et assurez-vous d'ajouter uniquement des extraits uniques
-        for doc, _score in results:
-            # Vérifiez si le contenu n'est pas déjà dans l'ensemble
-            if doc.page_content not in context_set:
-                context_set.add(doc.page_content)
-                context.append(doc.page_content)
-
-                # Arrêtez l'ajout si vous avez atteint le nombre souhaité d'extraits différents
-                if len(context) >= k:
-                    break
-
-        context = "\n\n---\n\n".join(context)  # Modifie pour utiliser une nouvelle ligne
+        context = "/n/n----/n/n".join(doc for doc  in results['documents'][0])
         logging.info("Contexte trouvé: %s", context)
 
         if context.strip() == "":
