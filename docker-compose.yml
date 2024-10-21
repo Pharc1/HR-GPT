@@ -10,7 +10,7 @@ services:
   flask:
     image: hrgpt.azurecr.io/flask:1.0
     ports:
-      - "5000:5000"
+      - "80:5000"
     depends_on:
       - chroma
     env_file:
