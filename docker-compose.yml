@@ -1,25 +1,22 @@
 services:
+  chroma:
+    image: chromadb/chroma:latest
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./chroma-data:/data  
+    env_file:
+      - ./.env
+
+
   flask:
     build: ./app  
     ports:
       - "5000:5000"  
     depends_on:
       - chroma
-    environment:
-      - CHROMA_DB_HOST=chroma
-      - CHROMA_DB_PORT=8001
-      - OPENAI_API_KEY=
- 
-
-  chroma:
-    build: ./chromadb
-    image: chromadb/chroma
-    ports:
-      - "8001:8001"
-    volumes:
-      - chroma-data:/data  
-    environment:
-      - OPENAI_API_KEY=
+    env_file:
+      - ./.env
 
 volumes:
   chroma-data:

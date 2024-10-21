@@ -18,7 +18,7 @@ client = OpenAI()
 # Définition du chemin pour la base de données Chroma
 # Configuration du client Chroma
 chroma_host = os.getenv('CHROMA_DB_HOST', 'chroma')  
-chroma_port = os.getenv('CHROMA_DB_PORT', 8001) 
+chroma_port = os.getenv('CHROMA_DB_PORT', 8000) 
 chroma_client = chromadb.HttpClient(host=chroma_host, port=chroma_port)
 embeddings_model = embedding_functions.OpenAIEmbeddingFunction(model_name="text-embedding-3-small", api_key=os.getenv('OPENAI_API_KEY'))
 
@@ -65,8 +65,8 @@ def ask():
     try:
         collection = chroma_client.get_or_create_collection(name ="Documents", embedding_function=embeddings_model)
         results = collection.query(
-            query_texts=["This is a query document about hawaii"], # Chroma will embed this for you
-            n_results=3 # how many results to return
+            query_texts=[question], # Chroma will embed this for you
+            n_results=5 # how many results to return
         )
 
         context = "/n/n----/n/n".join(doc for doc  in results['documents'][0])

@@ -9,7 +9,7 @@ from langchain.document_loaders import DirectoryLoader
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-client = chromadb.HttpClient(host='localhost', port=8001)
+client = chromadb.HttpClient(host='chroma', port=8000)
 logging.info("heartbeat %d", client.heartbeat())
 
 def chunk_text(documents, chunk_size, chunk_overlap):
@@ -62,7 +62,7 @@ def load_documents_from_folder(folder_path, chunk_size=512):
         return []
 
 # Charger les documents et découper en morceaux
-folder_path = 'document'
+folder_path = 'static/documents'
 documents = load_documents_from_folder(folder_path)
 
 

@@ -2,3 +2,7 @@ flask
 openai
 chromadb-client
 numpy
+langchain
+langchain-community
+unstructured
+python-magic
