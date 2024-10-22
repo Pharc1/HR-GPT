@@ -62,7 +62,7 @@ def load_documents_from_folder(folder_path, chunk_size=512):
         return []
 
 # Charger les documents et découper en morceaux
-folder_path = 'static/documents'
+folder_path = 'app/static/documents'
 documents = load_documents_from_folder(folder_path)
 
 
