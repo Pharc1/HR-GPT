@@ -29,6 +29,7 @@ jobs:
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
+        context: ./app
         push: true
         tags: hrgpt.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_4111b178b66b49c19c5b8fb3013111ab }}/flask:${{ github.sha }}
         file: ./app/Dockerfile
