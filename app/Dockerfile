@@ -25,4 +25,4 @@ EXPOSE 5000
 
 
 
-ENTRYPOINT ["start.sh"]
+ENTRYPOINT ["/app/start.sh"]
