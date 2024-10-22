@@ -9,7 +9,7 @@ from langchain.document_loaders import DirectoryLoader
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-client = chromadb.HttpClient(host='chroma', port=8000)
+client = chromadb.HttpClient(host='https://chroma-482049242144.us-central1.run.app', port=8000)
 logging.info("heartbeat %d", client.heartbeat())
 
 def chunk_text(documents, chunk_size, chunk_overlap):
