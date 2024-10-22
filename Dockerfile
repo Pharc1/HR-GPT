@@ -23,7 +23,7 @@ RUN chmod +x ./start.sh
 COPY . .
 
 # Expose le port sur lequel l'application écoute
-EXPOSE 5000
+EXPOSE 8080
 
 # Définit le point d'entrée pour le conteneur
 ENTRYPOINT ["./start.sh"]
