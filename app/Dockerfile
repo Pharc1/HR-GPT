@@ -1,33 +1,29 @@
 # app/Dockerfile
 
-
 FROM python:3.9-slim
 
+# Met à jour les paquets et installe les dépendances nécessaires
+RUN apt-get update && \
+    apt-get install -y curl libmagic1 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y curl && apt-get install -y libmagic1
-
+# Définit le répertoire de travail
 WORKDIR /app
 
-
+# Copie le fichier requirements.txt et installe les dépendances
 COPY requirements.txt .
-
-
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY start.sh start.sh
-RUN chmod +x start.sh
-
-# Copier le script start.sh dans le répertoire de travail
+# Copie le script start.sh et donne les permissions d'exécution
 COPY start.sh ./start.sh
+RUN chmod +x ./start.sh
 
-# Donner les permissions d'exécution au script
-RUN chmod +x /app/start.sh
+# Copie le reste des fichiers de l'application
 COPY . .
 
-
+# Expose le port sur lequel l'application écoute
 EXPOSE 5000
 
-
-
-
-ENTRYPOINT ["/app/start.sh"]
+# Définit le point d'entrée pour le conteneur
+ENTRYPOINT ["./start.sh"]
