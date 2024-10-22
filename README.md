@@ -1,6 +1,8 @@
 # HR-GPT
 
-![HR-GPT Logo](static/images/logo-rmvd.png) 
+<p align="center">
+  <img src="app/static/images/logo-rmvd.png" alt="HR-GPT Logo" />
+</p>
 
 ## Description
 
@@ -8,19 +10,19 @@
 
 ## Fonctionnalités
 
-- **Base de Connaissances** : Accès aux politiques internes stockées dans Azure Blob Storage.
+- **Base de Connaissances** : Accès aux politiques internes stockées dans l'app.
 - **Assistant Conversationnel** : Réponses aux questions courantes grâce à un modèle de langage fine-tuné de Hugging Face.
 - **Système de Recommandation** : Suggestions personnalisées basées sur les rôles et les besoins des employés.
 - **Notifications** : Alertes sur les mises à jour des politiques et rappels de conformité.
-- **Feedback** : Collecte d'avis pour améliorer continuellement le service.
+
 
 ## Technologies Utilisées
 
 - **Langage de Programmation** : Python
 - **Framework** : Flask
-- **Modèles** : Hugging Face (BERT)
-- **Infrastructure Cloud** : Azure pour le déploiement et la gestion des services
-- **Stockage** : Azure Blob Storage pour la gestion des documents internes
+- **Modèles** : Openai-ai-4o-mini
+- **Infrastructure Cloud** : Google cloud pour le déploiement et la gestion des services
+- **Stockage** : interne au container flask pour l'instant
 
 ## Installation
 
@@ -34,36 +36,16 @@
    cd HR-GPT
    ```
 
-2. Créez un environnement virtuel :
-
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # Sur Windows, utilisez `venv\Scripts\activate`
-   ```
-
-3. Installez les dépendances :
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
 ## Utilisation
 
 Lancez l'application Flask :
 
 ```bash
-python app.py
+docker-compose up --build
 ```
 
 Accédez à l'interface utilisateur via [http://localhost:5000](http://localhost:5000).
 
-## Déploiement sur Azure
-
-Pour déployer votre application sur Azure :
-
-1. Créez un compte Azure et configurez Azure App Service.
-2. Configurez Azure Blob Storage pour stocker vos documents internes.
-3. Suivez les instructions sur la [documentation d'Azure](https://docs.microsoft.com/fr-fr/azure/app-service/quickstart-python) pour déployer une application Flask.
 
 ## License
 
@@ -73,4 +55,4 @@ Ce projet est sous la licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus 
 
 Pour toute question, n'hésitez pas à me contacter à l'adresse [kpharci@gmail.com](mailto:kpharci@gmail.com).
 
-![HR-GPT Screenshot](static/images/screenshot.png) 
+![HR-GPT Screenshot](app/static/images/screenshot.png)

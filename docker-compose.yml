@@ -8,7 +8,7 @@ services:
 
 
   flask:
-    image: hrgpt.azurecr.io/flask:1.0
+    build: .
     ports:
       - "80:5000"
     depends_on:
