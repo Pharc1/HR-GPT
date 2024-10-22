@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 main = Blueprint('main', __name__)
 
 # Initialisation du client OpenAI
-client = OpenAI()
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
 # Définition du chemin pour la base de données Chroma
 # Configuration du client Chroma
