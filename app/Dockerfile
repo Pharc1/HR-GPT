@@ -21,7 +21,7 @@ RUN chmod +x start.sh
 COPY start.sh ./start.sh
 
 # Donner les permissions d'exécution au script
-RUN chmod +x ./start.sh
+RUN chmod +x /app/start.sh
 COPY . .
 
 
