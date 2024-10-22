@@ -19,7 +19,7 @@ client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 # Configuration du client Chroma
 chroma_host = os.getenv('CHROMA_DB_HOST', 'chroma')  
 chroma_port = os.getenv('CHROMA_DB_PORT', 8000) 
-chroma_client = chromadb.HttpClient(host=chroma_host, port=chroma_port)
+chroma_client = chromadb.HttpClient(host="https://chroma-482049242144.us-central1.run.app", port=chroma_port)
 embeddings_model = embedding_functions.OpenAIEmbeddingFunction(model_name="text-embedding-3-small", api_key=os.getenv('OPENAI_API_KEY'))
 
 @main.route("/")
