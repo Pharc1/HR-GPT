@@ -27,4 +27,4 @@ COPY . .
 EXPOSE 8080
 
 # Définit le point d'entrée pour le conteneur
-CMD ["sh", "-c", "echo 'Lancement de init.py...' && python app/init.py && echo 'Démarrage de l'application Flask...' && exec python app/app.py"]
+CMD ["sh", "-c", "python app/init.py  && exec python app/app.py"]
