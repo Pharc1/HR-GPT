@@ -17,6 +17,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY start.sh start.sh
 RUN chmod +x start.sh
 
+# Copier le script start.sh dans le répertoire de travail
+COPY start.sh ./start.sh
+
+# Donner les permissions d'exécution au script
+RUN chmod +x ./start.sh
 COPY . .
 
 
